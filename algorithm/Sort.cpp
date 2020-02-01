@@ -14,6 +14,15 @@ void selectionSort(T arr[],int n){
 		swap(arr[i],arr[minIndex]);
 	}
 }
+template<typename T>
+void insertionSort(T arr[],int n){
+	for(int i=1;i<n;i++){
+		for(int j=i;j>0&&arr[j]<arr[j-1];j--){
+			swap(arr[j],arr[j-1]);
+		}
+	}
+}
+
 int main(){
 	int a[10]={10,9,8,7,6,5,4,3,2,1};
 	selectionSort(a,10);
@@ -39,11 +48,15 @@ int main(){
 		cout<<d[i];
 	}
 	cout<<endl;
-	int n=10;
+	int n=10000;
 	int *arr=SortTestHelper::generateRandomArray(n,0,n);
-	selectionSort(arr,n);
-	SortTestHelper::printArray(arr,n);
+	int *arr2=SortTestHelper::copyIntArray(arr,n);
+	//selectionSort(arr,n);
+	//SortTestHelper::printArray(arr,n);
+	SortTestHelper::testSort("Insertion Sort",insertionSort,arr,n);
+	SortTestHelper::testSort("Selection Sort",selectionSort,arr2,n);
 	cout<<endl;			        
       	delete[] arr;
+	delete[] arr2;
 	return 0;
 }
