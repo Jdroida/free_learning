@@ -17,9 +17,12 @@ void selectionSort(T arr[],int n){
 template<typename T>
 void insertionSort(T arr[],int n){
 	for(int i=1;i<n;i++){
-		for(int j=i;j>0&&arr[j]<arr[j-1];j--){
-			swap(arr[j],arr[j-1]);
+		T e=arr[i];
+		int j;
+		for(j=i;j>0&&arr[j-1]>e;j--){
+			arr[j]=arr[j-1];
 		}
+		arr[j]=e;
 	}
 }
 
@@ -48,8 +51,8 @@ int main(){
 		cout<<d[i];
 	}
 	cout<<endl;
-	int n=10000;
-	int *arr=SortTestHelper::generateRandomArray(n,0,n);
+	int n=50000;
+	int *arr=SortTestHelper::generateNearlyOrderedArray(n,100);
 	int *arr2=SortTestHelper::copyIntArray(arr,n);
 	//selectionSort(arr,n);
 	//SortTestHelper::printArray(arr,n);
