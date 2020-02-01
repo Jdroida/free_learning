@@ -25,6 +25,15 @@ void insertionSort(T arr[],int n){
 		arr[j]=e;
 	}
 }
+template<typename T>
+void bubbleSort(T arr[],int n){
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n-i;j++){
+			if(arr[j]<arr[j-1])
+				swap(arr[j],arr[j-1]);
+		}
+	}
+}
 
 int main(){
 	int a[10]={10,9,8,7,6,5,4,3,2,1};
@@ -54,6 +63,9 @@ int main(){
 	int n=50000;
 	int *arr=SortTestHelper::generateNearlyOrderedArray(n,100);
 	int *arr2=SortTestHelper::copyIntArray(arr,n);
+	int *arr3=SortTestHelper::generateRandomArray(10,1,50);
+	bubbleSort(arr3,10);
+	SortTestHelper::printArray(arr3,10);
 	//selectionSort(arr,n);
 	//SortTestHelper::printArray(arr,n);
 	SortTestHelper::testSort("Insertion Sort",insertionSort,arr,n);
@@ -61,5 +73,6 @@ int main(){
 	cout<<endl;			        
       	delete[] arr;
 	delete[] arr2;
+	delete[] arr3;
 	return 0;
 }
