@@ -46,6 +46,34 @@ void shellSort(T arr[],int n){
 	}
 	insertionSort(arr,n);
 }
+template<typename T>
+void mergeSort(T arr[],int l,int r){
+	if(r-l<1)
+		return;//递归终点
+	int m=(l+r)/2;
+	mergeSort(arr,l,m);
+	mergeSort(arr,m+1,r);
+	T temp[r-l+1];
+	for(int i=l;i<r+1;i++)
+		temp[i-l]=arr[i];//开辟临时数组
+	int i=l,j=m+1;
+	for(int k=l;k<r+1;k++){//k是最终下标
+		if(i>m){
+			arr[k]=temp[j-l];
+			j++;
+		}else if(j>r){
+			arr[k]=temp[i-l];
+			i++;
+		}
+		else if(temp[i-l]<temp[j-l]){
+			arr[k]=temp[i-l];
+			i++;
+		}else{
+			arr[k]=temp[j-l];
+			j++;
+		}
+	}
+}
 
 int main(){
 	int a[10]={10,9,8,7,6,5,4,3,2,1};
@@ -72,11 +100,11 @@ int main(){
 		cout<<d[i];
 	}
 	cout<<endl;
-	int n=50000;
-	int *arr=SortTestHelper::generateNearlyOrderedArray(n,100);
+	int n=30000;
+	int *arr=SortTestHelper::generateNearlyOrderedArray(n,1000);
 	int *arr2=SortTestHelper::copyIntArray(arr,n);
-	int *arr3=SortTestHelper::generateRandomArray(10,1,50);
-	shellSort(arr3,10);
+	int *arr3=SortTestHelper::generateRandomArray(10,1,100);
+	mergeSort(arr3,0,9);
 	SortTestHelper::printArray(arr3,10);
 	//selectionSort(arr,n);
 	//SortTestHelper::printArray(arr,n);
