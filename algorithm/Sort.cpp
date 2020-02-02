@@ -34,6 +34,18 @@ void bubbleSort(T arr[],int n){
 		}
 	}
 }
+template<typename T>
+void shellSort(T arr[],int n){
+	int gap=n/2;
+	while(gap>1){
+		for(int i=0;i<gap;i++){
+			if(arr[i]>arr[i+gap])
+				swap(arr[i],arr[i+gap]);
+		}
+		gap=gap/2;
+	}
+	insertionSort(arr,n);
+}
 
 int main(){
 	int a[10]={10,9,8,7,6,5,4,3,2,1};
@@ -64,7 +76,7 @@ int main(){
 	int *arr=SortTestHelper::generateNearlyOrderedArray(n,100);
 	int *arr2=SortTestHelper::copyIntArray(arr,n);
 	int *arr3=SortTestHelper::generateRandomArray(10,1,50);
-	bubbleSort(arr3,10);
+	shellSort(arr3,10);
 	SortTestHelper::printArray(arr3,10);
 	//selectionSort(arr,n);
 	//SortTestHelper::printArray(arr,n);
