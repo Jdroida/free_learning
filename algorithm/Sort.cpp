@@ -74,6 +74,30 @@ void mergeSort(T arr[],int l,int r){
 		}
 	}
 }
+template<typename T>
+void mergeSort(T arr[],int n){
+	mergeSort(arr,0,n-1);
+}
+template<typename T>
+void quickSort(T arr[],int l,int r){
+	if(r-l<1)
+		return;
+	T v=arr[l];
+	int j=l;
+	for(int i=l+1;i<=r;i++){
+		if(arr[i]<v){
+			swap(arr[j+1],arr[i]);
+			j++;
+		}
+	}
+	swap(arr[l],arr[j]);
+	quickSort(arr,l,j-1);
+	quickSort(arr,j+1,r);
+}
+template<typename T>
+void quickSort(T arr[],int n){
+	quickSort(arr,0,n-1);
+}
 
 int main(){
 	int a[10]={10,9,8,7,6,5,4,3,2,1};
@@ -103,11 +127,10 @@ int main(){
 	int n=30000;
 	int *arr=SortTestHelper::generateNearlyOrderedArray(n,1000);
 	int *arr2=SortTestHelper::copyIntArray(arr,n);
-	int *arr3=SortTestHelper::generateRandomArray(10,1,100);
-	mergeSort(arr3,0,9);
+	int *arr3=SortTestHelper::generateRandomArray(10,1,1000);
 	SortTestHelper::printArray(arr3,10);
-	//selectionSort(arr,n);
-	//SortTestHelper::printArray(arr,n);
+	quickSort(arr3,0,9);
+	SortTestHelper::printArray(arr3,10);
 	SortTestHelper::testSort("Insertion Sort",insertionSort,arr,n);
 	SortTestHelper::testSort("Selection Sort",selectionSort,arr2,n);
 	cout<<endl;			        
