@@ -101,6 +101,7 @@ public:
 			return;
 		}
 		Node* start=root;
+		//此处只考虑了非叶子节点的情况
 		while(start->left!=NULL||start->right!=NULL){
 			if(key<start->key){
 				if(start->left==NULL){
@@ -119,6 +120,8 @@ public:
 				break;
 			}
 		}
+		if(key==start->key)
+			cout<<"此节点的value是"<<start->value<<endl;
 
 	}
 	//前序遍历
@@ -173,8 +176,6 @@ int main(){
 	bst.insert(3,'e');
 	bst.insert(5,'f');
 	bst.insert(7,'g');
-	//bst.insert(8,'h');
-	//bst.insert(9,'i');
 	bst.preOrder(bst.getRoot());
 	cout<<endl;
 	bst.midOrder(bst.getRoot());
@@ -182,6 +183,8 @@ int main(){
 	bst.endOrder(bst.getRoot());
 	cout<<endl;
 	bst.layerOrder();
+	cout<<endl;
+	bst.search(5);
 	cout<<endl;
 	return 0;
 }
