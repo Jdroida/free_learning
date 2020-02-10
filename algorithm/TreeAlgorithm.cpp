@@ -82,7 +82,6 @@ public:
 				start=start->right;
 			}else{
 				start->value=value;
-				cout<<"此节点已在树中1"<<endl;
 				break;
 			}
 		}
@@ -90,15 +89,14 @@ public:
 			start->left=new Node(key,value);
 		else if(key>start->key)
 			start->right=new Node(key,value);
-		else if(key!=root->key){
-			cout<<"此节点已在树中2"<<endl;
+		else if(key==root->key){
 			start->value=value;
 		}
 	}
-	void search(Key key){
+	Node* search(Key key){
 		if(root==NULL){
 			cout<<"现在这是个空树"<<endl;
-			return;
+			return NULL;
 		}
 		Node* start=root;
 		//此处只考虑了非叶子节点的情况
@@ -106,22 +104,27 @@ public:
 			if(key<start->key){
 				if(start->left==NULL){
 					cout<<"找不到节点"<<endl;
-					break;
+					return NULL;
 				}
 				start=start->left;
 			}else if(key>start->key){
 				if(start->right==NULL){
 					cout<<"找不到节点"<<endl;
-					break;
+					return NULL;
 				}
 				start=start->right;
 			}else{
 				cout<<"此节点的value是"<<start->value<<endl;
-				break;
+				return start;
 			}
 		}
-		if(key==start->key)
+		if(key==start->key){
 			cout<<"此节点的value是"<<start->value<<endl;
+			return start;
+		}else{
+			cout<<"找不到节点"<<endl;
+			return NULL;
+		}
 
 	}
 	//前序遍历
@@ -155,11 +158,49 @@ public:
 		while(!q.empty()){
 			Node *node=q.front();
 			q.pop();
-			cout<<node->key<<"   ";
+			if(node!=NULL)
+				cout<<"key:"<<node->key<<"   value:"<<node->value<<"   地址:"<<node<<endl;
 			if(node->left!=NULL)
 				q.push(node->left);
 			if(node->right!=NULL)
 				q.push(node->right);
+		}
+	}
+	void remove(Key key){
+		//有左孩子没右孩子：左孩子替代被删除节点
+		//有右孩子没左孩子：右孩子替代被删除节点
+		//既有右孩子也有左孩子：左孩子的最大值或者
+		//右孩子的最小值替代被删除节点
+		//没有右孩子也没有左孩子：直接删除
+		Node* start=search(key);
+		if(start==NULL){
+			cout<<"找不到节点"<<endl;
+			return;
+		}
+		if(start->left!=NULL&&start->right==NULL){
+			start=start->left;
+			//这里如果要释放目标节点所占内存的话
+			//应该先找到目标节点的父节点
+			//然后存储目标节点的左子树
+			//并记录目标节点和父节点的关系（左孩子还是右孩子）
+			//然后删除目标节点
+			//最后顺着目标节点和父节点的关系（左孩子还是右孩子）
+			//把原来存储的左子树插进去
+		}else if(start->right!=NULL&&start->left==NULL){
+			start=start->right;
+			//释放目标节点所占内存方法同上
+		}else if(start->left!=NULL&&start->right!=NULL){
+			//这里找右孩子的最小值
+			Node* rightChild=start->right;
+			Node* minRight=rightChild;
+			while(minRight->left!=NULL){
+				minRight=minRight->left;
+			}
+			start=minRight;
+			//释放内存方法同上
+		}else{
+			delete start;
+			start=NULL;
 		}
 	}
 
@@ -184,7 +225,8 @@ int main(){
 	cout<<endl;
 	bst.layerOrder();
 	cout<<endl;
-	bst.search(5);
+	bst.remove(5);
+	bst.layerOrder();
 	cout<<endl;
 	return 0;
 }
