@@ -27,11 +27,13 @@ private:
 		Value value;
 		Node *left;
 		Node *right;
+		Node *father;
 		Node(Key key,Value value){
 			this->key=key;
 			this->value=value;
 			this->left=NULL;
 			this->right=NULL;
+			this->father=NULL;
 		}
 	};
 	Node *root;
@@ -64,34 +66,41 @@ public:
 		return count==0;
 	}
 	void insert(Key key,Value value){
-		if(root==NULL)
-			root=new Node(key,value);
 		count++;
-		Node* start=root;
+		if(root==NULL){
+			root=new Node(key,value);
+			return;
+		}
+		Node* start=root;	
+		Node* end=new Node(key,value);
 		while(start->left!=NULL||start->right!=NULL){
 			//如果比节点小 看看有没有左孩子 如果没有左孩子就加在左孩子上
 			//如果比节点大 看看与没有右孩子 如果没有右孩子就加在右孩子上
 			//如果有左（右）孩子就迭代下去
+			//start必须保持是end的父节点
 			if(key<start->key){
-				if(start->left==NULL)
-					start->left=new Node(key,value);
-				start=start->left;
+				if(start->left==NULL){
+					start->left=end;
+					break;
+				}else
+					start=start->left;
 			}else if(key>start->key){
-				if(start->right==NULL)
-					start->right=new Node(key,value);
-				start=start->right;
+				if(start->right==NULL){
+					start->right=end;
+					break;
+				}else
+					start=start->right;
 			}else{
-				start->value=value;
+				cout<<"此节点已存在"<<endl;
 				break;
 			}
 		}
-		if(key<start->key)
-			start->left=new Node(key,value);
-		else if(key>start->key)
-			start->right=new Node(key,value);
-		else if(key==root->key){
-			start->value=value;
+		if(key<start->key){
+			start->left=end;
+		}else if(key>start->key){
+			start->right=end;
 		}
+		end->father=start;
 	}
 	Node* search(Key key){
 		if(root==NULL){
@@ -114,12 +123,13 @@ public:
 				}
 				start=start->right;
 			}else{
-				cout<<"此节点的value是"<<start->value<<endl;
 				return start;
 			}
 		}
 		if(key==start->key){
-			cout<<"此节点的value是"<<start->value<<endl;
+			cout<<"2此节点的value是"<<start->value<<endl;
+			cout<<"2此节点的父节点的value是"<<start->
+				father->value<<endl;
 			return start;
 		}else{
 			cout<<"找不到节点"<<endl;
@@ -174,11 +184,14 @@ public:
 		//没有右孩子也没有左孩子：直接删除
 		Node* start=search(key);
 		if(start==NULL){
-			cout<<"找不到节点"<<endl;
+			//cout<<"找不到节点"<<endl;
 			return;
 		}
 		if(start->left!=NULL&&start->right==NULL){
-			start=start->left;
+			if(start->key<start->father->key)
+				start->father->left=start->left;
+			else
+				start->father->right=start->left;
 			//这里如果要释放目标节点所占内存的话
 			//应该先找到目标节点的父节点
 			//然后存储目标节点的左子树
@@ -187,24 +200,51 @@ public:
 			//最后顺着目标节点和父节点的关系（左孩子还是右孩子）
 			//把原来存储的左子树插进去
 		}else if(start->right!=NULL&&start->left==NULL){
-			start=start->right;
+			if(start->key<start->father->key)
+				start->father->left=start->right;
+			else
+				start->father->right=start->right;
 			//释放目标节点所占内存方法同上
 		}else if(start->left!=NULL&&start->right!=NULL){
 			//这里找右孩子的最小值
-			Node* rightChild=start->right;
-			Node* minRight=rightChild;
+			Node* minRight=start->right;
 			while(minRight->left!=NULL){
 				minRight=minRight->left;
 			}
-			start=minRight;
-			//释放内存方法同上
+			Node* disappear=minRight;//用这个指针删除右孩子最小值
+			cout<<"右孩子最小值的key:"<<minRight->key
+				<<"    父节点的key:"<<minRight->father->key<<endl;
+			//右孩子最小值替代被删除节点的时候
+			//右孩子最小值的左孩子是被删除节点的左孩子
+			//右孩子最小值的右孩子是被删除节点的右孩子
+			//删除最小值之后的结果
+			if(start->father!=NULL&&start->key<start->father->key)
+				start->father->left=minRight;
+			else if(start->father!=NULL&&start->key>start->father->key)
+				start->father->right=minRight;
+			else 
+				root=minRight;
+			//在这里删除右孩子的最小值
+			if(disappear->key<disappear->father->key){
+				disappear->father->left=NULL;
+				delete disappear->father->left;
+			}else{
+				disappear->father->right=NULL;
+				delete disappear->father->right;
+			}
+			minRight->left=start->left;
+			minRight->right=start->right;
 		}else{
-			delete start;
-			start=NULL;
+			if(start->key<start->father->key){
+				start->father->left=NULL;
+			}else if(start->key>start->father->key){
+				start->father->right=NULL;
+			}
 		}
+		delete start;
+		start=NULL;
+
 	}
-
-
 };
 int main(){
 	//int arr[]={1,2,3,4,5,6,7};
@@ -225,7 +265,7 @@ int main(){
 	cout<<endl;
 	bst.layerOrder();
 	cout<<endl;
-	bst.remove(5);
+	bst.remove(7);
 	bst.layerOrder();
 	cout<<endl;
 	return 0;
