@@ -48,6 +48,13 @@ public class MyDetailInfoActivity extends AppCompatActivity {
         passwordMyItemGroup = findViewById(R.id.edit_password);
         announcementMyItemGroup = findViewById(R.id.system_announcement);
 
+        announcementMyItemGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MyDetailInfoActivity.this, "本功能为预留功能，后续开放", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         saveInfo.setOnClickListener(v -> {
             User temp = new User(Config.INSTANCE.getUser().getUsername());
             temp.setObjectId(Config.INSTANCE.getUser().getObjectId());
