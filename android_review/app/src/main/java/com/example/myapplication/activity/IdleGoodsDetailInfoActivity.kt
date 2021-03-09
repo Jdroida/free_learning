@@ -12,20 +12,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cn.bmob.v3.BmobQuery
 import cn.bmob.v3.exception.BmobException
 import cn.bmob.v3.listener.QueryListener
-import cn.bmob.v3.listener.SaveListener
 import cn.bmob.v3.listener.UpdateListener
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.example.myapplication.R
 import com.example.myapplication.adapter.CommentAdapter
-import com.example.myapplication.adapter.StuffAdapter
 import com.example.myapplication.bean.Comment
 import com.example.myapplication.bean.Stuff
 import com.example.myapplication.bean.User
 import com.example.myapplication.utils.Config
 import kotlinx.android.synthetic.main.activity_idle_goods_detail_info.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 class IdleGoodsDetailInfoActivity : AppCompatActivity() {
     private var stuff: Stuff? = null
@@ -47,7 +44,7 @@ class IdleGoodsDetailInfoActivity : AppCompatActivity() {
             val temp = Stuff(stuff!!.name)
             temp.comments = stuff!!.comments
             var comment = Comment(v.text.toString())
-            comment.username = stuff?.ownerName
+            comment.username = Config.user?.nickname
             if (temp.comments == null) {
                 temp.comments = mutableListOf(comment)
             } else {
