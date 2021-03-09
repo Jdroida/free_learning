@@ -70,9 +70,9 @@ public class AllStuffAdapter extends RecyclerView.Adapter<AllStuffAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Stuff goods = this.idleGoodsInfoList.get(position);
-        if (!TextUtils.isEmpty(goods.getImg())) {
+        /*if (!TextUtils.isEmpty(goods.getImg())) {
             Glide.with(mcontext).load(goods.getImg()).into(holder.idlePropertyImgMyImageView);
-        }
+        }*/
         holder.idlePropertyTitleTextView.setText(goods.getName());
         holder.idlePropertyPersonTextView.setText(goods.getOwnerName());
         holder.idlePropertyLocationTextView.setText(goods.getOwnerAddress());
