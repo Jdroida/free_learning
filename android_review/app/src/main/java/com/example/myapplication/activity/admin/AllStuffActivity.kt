@@ -19,19 +19,20 @@ class AllStuffActivity : AppCompatActivity() {
         setContentView(R.layout.activity_all_stuff)
         actionBar?.hide()
         rv_goods.layoutManager = LinearLayoutManager(this)
-        rv_goods.adapter = AllStuffAdapter(getStuffList(), this)
-
+        getStuffList()
     }
 
-    private fun getStuffList(): List<Stuff>? {
+    private fun getStuffList() {
         val bmobQuery = BmobQuery<Stuff>()
         val result: MutableList<Stuff> = ArrayList()
         bmobQuery.findObjects(object : FindListener<Stuff>() {
-            override fun done(list: List<Stuff>, e: BmobException) {
-                result.addAll(list)
+            override fun done(list: List<Stuff>?, e: BmobException?) {
+                if (list != null) {
+                    result.addAll(list)
+                    rv_goods.adapter = AllStuffAdapter(result, this@AllStuffActivity)
+                }
             }
         })
-        return result
     }
 
 }
