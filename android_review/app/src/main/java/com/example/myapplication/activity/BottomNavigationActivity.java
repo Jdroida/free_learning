@@ -100,6 +100,7 @@ public class BottomNavigationActivity extends BaseActivity {
         navController.setGraph(navGraph);
         //底部导航设置点击事件
         navView.setOnNavigationItemSelectedListener(item -> {
+            userId = (String) SharePreferencesUtils.getParam(this, "userId", "");
             if (item.getItemId() == R.id.navigation_my) {
                 if (TextUtils.isEmpty(userId)) {
                     startActivity(new Intent(this, LoginActivity.class));

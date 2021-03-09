@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -14,19 +15,24 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
+import com.example.myapplication.bean.User;
 import com.example.myapplication.domain.DoMainUser;
 import com.example.myapplication.myview.MyItemGroup;
 import com.example.myapplication.myview.MyTitleBar;
 import com.example.myapplication.service.UpDateUserInfo;
+import com.example.myapplication.utils.Config;
 import com.example.myapplication.utils.SharePreferencesUtils;
+
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class MyDetailInfoActivity extends AppCompatActivity {
 
     private MyTitleBar myInfoMyTitleBar;
+    private TextView saveInfo;
 
     private MyItemGroup nicknameMyItemGroup;
-    private MyItemGroup userEmailMyItemGroup;
-    private MyItemGroup userPhoneNumMyItemGroup;
+    private MyItemGroup userPhoneNumMyItemGroup, addressMyItemGroup, announcementMyItemGroup, passwordMyItemGroup;
     private SharedPreferences userinformation;
 
     @Override
@@ -34,10 +40,34 @@ public class MyDetailInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_deatil_info);
 
+        saveInfo = findViewById(R.id.tv_forward);
         myInfoMyTitleBar = findViewById(R.id.myTitleBar_myInfo);
         nicknameMyItemGroup = findViewById(R.id.myItemGroup_nickName);
-        userEmailMyItemGroup = findViewById(R.id.myItemGroup_userEmail);
         userPhoneNumMyItemGroup = findViewById(R.id.myItemGroup_userPhoneNum);
+        addressMyItemGroup = findViewById(R.id.user_address);
+        passwordMyItemGroup = findViewById(R.id.edit_password);
+        announcementMyItemGroup = findViewById(R.id.system_announcement);
+
+        saveInfo.setOnClickListener(v -> {
+            User temp = new User(Config.INSTANCE.getUser().getUsername());
+            temp.setObjectId(Config.INSTANCE.getUser().getObjectId());
+            temp.setNickname(nicknameMyItemGroup.getContentTextViewText());
+            temp.setPhoneNum(userPhoneNumMyItemGroup.getContentTextViewText());
+            temp.setAddress(addressMyItemGroup.getContentTextViewText());
+            temp.setPassword(passwordMyItemGroup.getContentTextViewText());
+            temp.update(temp.getObjectId(), new UpdateListener() {
+                @Override
+                public void done(BmobException e) {
+                    if (e == null) {
+                        Toast.makeText(MyDetailInfoActivity.this, "更新成功", Toast.LENGTH_SHORT).show();
+                        Config.INSTANCE.setUser(temp);
+                        finish();
+                    } else {
+                        Toast.makeText(MyDetailInfoActivity.this, "更新失败" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        });
 
         //隐藏系统自带顶部状态栏
         ActionBar supportActionBar = getSupportActionBar();
@@ -58,9 +88,6 @@ public class MyDetailInfoActivity extends AppCompatActivity {
 
         if (localUserName != null) {
             nicknameMyItemGroup.setContentTextViewText(localUserName);
-        }
-        if (localUserEmail != null) {
-            userEmailMyItemGroup.setContentTextViewText(localUserEmail);
         }
         if (localUserPhoneNum != null) {
             userPhoneNumMyItemGroup.setContentTextViewText(localUserPhoneNum);
@@ -109,47 +136,6 @@ public class MyDetailInfoActivity extends AppCompatActivity {
             }
         });
 
-        userEmailMyItemGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final EditText useremailEditText = new EditText(MyDetailInfoActivity.this);
-                useremailEditText.setText(userEmailMyItemGroup.getContentTextViewText());
-                useremailEditText.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        if (!useremailEditText.getText().toString().matches("^[A-Za-z\\d]+([-_.][A-Za-z\\d]+)*@([A-Za-z\\d]+[-.])+[A-Za-z\\d]{2,4}$")) {
-                            useremailEditText.setError("邮箱格式有误！");
-                        }
-                    }
-                });
-
-                //创建弹窗
-                AlertDialog.Builder dialog = new AlertDialog.Builder(MyDetailInfoActivity.this);
-                dialog.setTitle("提示");
-                dialog.setMessage("更改用户邮箱为").setView(useremailEditText).setNegativeButton("取消", null);
-                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // 将信息更新至文本框中，待最终按下保存按钮再更新至本地共享文件并更新数据库
-                        if (!useremailEditText.getText().toString().isEmpty() && useremailEditText.getError() == null) {
-                            userEmailMyItemGroup.setContentTextViewText(useremailEditText.getText().toString());
-                            Toast.makeText(MyDetailInfoActivity.this, "修改成功！", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(MyDetailInfoActivity.this, "用户邮箱格式错误请重试！", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-                dialog.show();
-            }
-        });
 
         userPhoneNumMyItemGroup.setOnClickListener(new View.OnClickListener() {
             @Override

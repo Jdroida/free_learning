@@ -27,7 +27,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     private Button logoutButton;
     private Button showMyInfoDetailButton;
     private ImageView myCollectionImageView;
-    private TextView myCollectionTextView;
+    private TextView myCollectionTextView, nickname;
     private LinearLayout myUserInfoLinearLayout;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -36,6 +36,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
 
         showMyInfoDetailButton = root.findViewById(R.id.btn_showMyInfoDetail);
         logoutButton = root.findViewById(R.id.btn_logout);
+        nickname = root.findViewById(R.id.tv_myUserName);
         myCollectionImageView = root.findViewById(R.id.iv_myCollection);
         myCollectionTextView = root.findViewById(R.id.tv_myCollection);
         myUserInfoLinearLayout = root.findViewById(R.id.ly_myUserInfo);
@@ -64,6 +65,12 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         });
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        nickname.setText(Config.INSTANCE.getUser().getNickname());
     }
 
     @Override

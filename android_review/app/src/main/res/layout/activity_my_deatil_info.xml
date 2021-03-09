@@ -43,14 +43,6 @@
         app:title="昵称：" />
 
     <com.example.myapplication.myview.MyItemGroup
-        android:id="@+id/myItemGroup_userEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:edt_hint_content="修改用户邮箱"
-        app:paddingLeft="@dimen/padding_left_and_right"
-        app:title="用户邮箱：" />
-
-    <com.example.myapplication.myview.MyItemGroup
         android:id="@+id/myItemGroup_userPhoneNum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
