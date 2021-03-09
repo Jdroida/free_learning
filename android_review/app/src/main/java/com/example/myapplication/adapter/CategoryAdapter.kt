@@ -45,7 +45,7 @@ class CategoryAdapter(
         }
         holder.image.setOnClickListener {
             val intent = Intent(context, CategoryStuffActivity::class.java)
-            intent.putExtra("categoryId", categoryList.get(position).objectId)
+            intent.putExtra("categoryName", categoryList[position].categoryName)
             context.startActivity(intent)
         }
     }

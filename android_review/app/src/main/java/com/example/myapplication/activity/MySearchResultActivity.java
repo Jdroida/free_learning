@@ -53,7 +53,7 @@ public class MySearchResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String searchResult = intent.getStringExtra("searchResult");
 
-        Log.d("searchResult", searchResult);
+        Log.d("searchResult", "" + searchResult);
 
         LinearLayoutManager manager = new LinearLayoutManager(MySearchResultActivity.this);
         mySearchResultRecyclerView.setLayoutManager(manager);

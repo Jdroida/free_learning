@@ -2,7 +2,6 @@ package com.example.myapplication.activity
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.bmob.v3.BmobQuery
@@ -20,18 +19,19 @@ class CategoryStuffActivity : AppCompatActivity() {
         setContentView(R.layout.activity_category_stuff)
         actionBar?.hide()
         category_stuff.layoutManager = LinearLayoutManager(this)
-        category_stuff.adapter =
-            StuffAdapter(getStuffList(intent.getStringExtra("categoryId")), this)
+        getStuffList(intent.getStringExtra("categoryName"))
     }
 
-    private fun getStuffList(categoryId: String?): List<Stuff>? {
+    private fun getStuffList(categoryName: String?): List<Stuff>? {
         val result: MutableList<Stuff> = ArrayList()
         val bmobQuery = BmobQuery<Stuff>()
-        bmobQuery.addWhereEqualTo("categoryId", categoryId)
+        bmobQuery.addWhereEqualTo("category", categoryName)
             .findObjects(object : FindListener<Stuff>() {
-                override fun done(list: List<Stuff>?, e: BmobException) {
-                    if (list != null)
+                override fun done(list: List<Stuff>?, e: BmobException?) {
+                    if (list != null) {
                         result.addAll(list)
+                        category_stuff.adapter = StuffAdapter(result, this@CategoryStuffActivity)
+                    }
                     if (e != null)
                         Log.w("getStuffList", "  ${e.message}")
                 }
