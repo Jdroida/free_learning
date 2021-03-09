@@ -1,6 +1,7 @@
 package com.example.myapplication.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,12 +16,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
+import com.example.myapplication.activity.admin.AllAnnouncementActivity;
 import com.example.myapplication.bean.User;
 import com.example.myapplication.domain.DoMainUser;
 import com.example.myapplication.myview.MyItemGroup;
 import com.example.myapplication.myview.MyTitleBar;
 import com.example.myapplication.service.UpDateUserInfo;
 import com.example.myapplication.utils.Config;
+import com.example.myapplication.utils.MD5Util;
 import com.example.myapplication.utils.SharePreferencesUtils;
 
 import cn.bmob.v3.exception.BmobException;
@@ -48,12 +51,7 @@ public class MyDetailInfoActivity extends AppCompatActivity {
         passwordMyItemGroup = findViewById(R.id.edit_password);
         announcementMyItemGroup = findViewById(R.id.system_announcement);
 
-        announcementMyItemGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MyDetailInfoActivity.this, "本功能为预留功能，后续开放", Toast.LENGTH_SHORT).show();
-            }
-        });
+        announcementMyItemGroup.setOnClickListener(v -> startActivity(new Intent(MyDetailInfoActivity.this, AllAnnouncementActivity.class)));
 
         saveInfo.setOnClickListener(v -> {
             User temp = new User(Config.INSTANCE.getUser().getUsername());
@@ -61,7 +59,7 @@ public class MyDetailInfoActivity extends AppCompatActivity {
             temp.setNickname(nicknameMyItemGroup.getContentTextViewText());
             temp.setPhoneNum(userPhoneNumMyItemGroup.getContentTextViewText());
             temp.setAddress(addressMyItemGroup.getContentTextViewText());
-            temp.setPassword(passwordMyItemGroup.getContentTextViewText());
+            temp.setPassword(MD5Util.getMD5Str(passwordMyItemGroup.getContentTextViewText()));
             temp.update(temp.getObjectId(), new UpdateListener() {
                 @Override
                 public void done(BmobException e) {
@@ -182,6 +180,88 @@ public class MyDetailInfoActivity extends AppCompatActivity {
                             Toast.makeText(MyDetailInfoActivity.this, "修改成功！", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(MyDetailInfoActivity.this, "用户联系方式格式错误请重试！", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                dialog.show();
+            }
+        });
+        addressMyItemGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText addressEditText = new EditText(MyDetailInfoActivity.this);
+                addressEditText.setText(userPhoneNumMyItemGroup.getContentTextViewText());
+                addressEditText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+
+                //创建弹窗
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MyDetailInfoActivity.this);
+                dialog.setTitle("提示");
+                dialog.setMessage("更改地址为").setView(addressEditText).setNegativeButton("取消", null);
+                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 将信息更新至文本框中，待最终按下保存按钮再更新至本地共享文件并更新数据库
+                        if (!addressEditText.getText().toString().isEmpty() && addressEditText.getError() == null) {
+                            userPhoneNumMyItemGroup.setContentTextViewText(addressEditText.getText().toString());
+                            Toast.makeText(MyDetailInfoActivity.this, "修改成功！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MyDetailInfoActivity.this, "请重试！", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                dialog.show();
+            }
+        });
+        passwordMyItemGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText passwordEditText = new EditText(MyDetailInfoActivity.this);
+                passwordEditText.setText(userPhoneNumMyItemGroup.getContentTextViewText());
+                passwordEditText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        if (!passwordEditText.getText().toString().matches("^(\\w){8,20}$")) {
+                            passwordEditText.setError("密码长度介于8到20位之间，且由字母或数字构成！");
+                        }
+                    }
+                });
+
+                //创建弹窗
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MyDetailInfoActivity.this);
+                dialog.setTitle("提示");
+                dialog.setMessage("更改密码为").setView(passwordEditText).setNegativeButton("取消", null);
+                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 将信息更新至文本框中，待最终按下保存按钮再更新至本地共享文件并更新数据库
+                        if (!passwordEditText.getText().toString().isEmpty() && passwordEditText.getError() == null) {
+                            userPhoneNumMyItemGroup.setContentTextViewText(passwordEditText.getText().toString());
+                            Toast.makeText(MyDetailInfoActivity.this, "修改成功！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MyDetailInfoActivity.this, "请重试！", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

@@ -70,7 +70,8 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        nickname.setText(Config.INSTANCE.getUser().getNickname());
+        if (Config.INSTANCE.getUser() != null)
+            nickname.setText(Config.INSTANCE.getUser().getNickname());
     }
 
     @Override

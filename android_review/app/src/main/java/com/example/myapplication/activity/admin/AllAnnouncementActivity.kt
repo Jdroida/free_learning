@@ -1,6 +1,7 @@
 package com.example.myapplication.activity.admin
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,11 +14,10 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.example.myapplication.R
 import com.example.myapplication.adapter.AnnouncementAdapter
 import com.example.myapplication.bean.Announce
+import com.example.myapplication.utils.Config
 import kotlinx.android.synthetic.main.activity_all_announcement.*
-import kotlinx.android.synthetic.main.activity_all_category.*
 
 class AllAnnouncementActivity : AppCompatActivity() {
-    var adapter: AnnouncementAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_announcement)
@@ -54,18 +54,19 @@ class AllAnnouncementActivity : AppCompatActivity() {
                     dialog.dismiss()
                 }.show()
         }
+        if (Config.user?.objectId != "Rflr222K") {
+            add_announcement.visibility = View.GONE
+        }
     }
 
     private fun getAnnounceList() {
         var announceList = mutableListOf<Announce>()
         val bmobQuery = BmobQuery<Announce>()
         bmobQuery.findObjects(object : FindListener<Announce>() {
-            override fun done(list: List<Announce>, e: BmobException?) {
+            override fun done(list: List<Announce>?, e: BmobException?) {
                 if (list != null && list.isNotEmpty()) {
                     announceList.addAll(list)
-                    adapter = AnnouncementAdapter(announceList)
-                    rv_all_category.adapter = adapter
-                    adapter?.notifyDataSetChanged()
+                    rv_announcement.adapter = AnnouncementAdapter(announceList)
                 }
             }
         })
