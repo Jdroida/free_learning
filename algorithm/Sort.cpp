@@ -2,6 +2,7 @@
 #include"Student.h"
 #include"SortTestHelper.h"
 using namespace std;
+//选择排序
 template<typename T>
 void selectionSort(T arr[],int n){
 	for(int i=0;i<n;i++){
@@ -14,6 +15,7 @@ void selectionSort(T arr[],int n){
 		swap(arr[i],arr[minIndex]);
 	}
 }
+//插入排序
 template<typename T>
 void insertionSort(T arr[],int n){
 	for(int i=1;i<n;i++){
@@ -25,6 +27,7 @@ void insertionSort(T arr[],int n){
 		arr[j]=e;
 	}
 }
+//冒泡排序
 template<typename T>
 void bubbleSort(T arr[],int n){
 	for(int i=0;i<n;i++){
@@ -34,6 +37,7 @@ void bubbleSort(T arr[],int n){
 		}
 	}
 }
+//希尔排序
 template<typename T>
 void shellSort(T arr[],int n){
 	int gap=n/2;
@@ -46,6 +50,7 @@ void shellSort(T arr[],int n){
 	}
 	insertionSort(arr,n);
 }
+//归并排序
 template<typename T>
 void mergeSort(T arr[],int l,int r){
 	if(r-l<1)
@@ -78,6 +83,7 @@ template<typename T>
 void mergeSort(T arr[],int n){
 	mergeSort(arr,0,n-1);
 }
+//快速排序
 template<typename T>
 void quickSort(T arr[],int l,int r){
 	if(r-l<1)
