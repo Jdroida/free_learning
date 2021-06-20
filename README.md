@@ -17,3 +17,4 @@
 [cpp二叉搜索树](algorithm/TreeAlgorithm.cpp)<br>
 [cpp二叉平衡树](algorithm/AVLTree.cpp)<br>
 [Java二叉平衡树](src/AVL.java)<br>
+[经典算法笔记](经典算法笔记.md)
