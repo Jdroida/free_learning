@@ -190,6 +190,7 @@ public class AVL {
     }
 
 
+    //深度优先 先根
     void preOrderTraversal(AVL node) {
         if (node == null || node.data == DELETED_NODE_DATA) {
             return;
@@ -199,6 +200,7 @@ public class AVL {
         node.preOrderTraversal(node.right);
     }
 
+    //深度优先 中根
     void inOrderTraversal(AVL node) {
         if (node == null || node.data == DELETED_NODE_DATA) {
             return;
@@ -208,6 +210,7 @@ public class AVL {
         node.inOrderTraversal(node.right);
     }
 
+    //深度优先 后根
     void postOrderTraversal(AVL node) {
         if (node == null || node.data == DELETED_NODE_DATA) {
             return;
