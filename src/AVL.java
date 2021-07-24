@@ -1,5 +1,6 @@
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 public class AVL {
     public static final int DELETED_NODE_DATA = -1;
@@ -238,6 +239,57 @@ public class AVL {
         }
     }
 
+    void invertTreeRecursion(AVL node) {
+        if (node == null) {
+            return;
+        }
+        AVL temp = node.left;
+        node.left = node.right;
+        node.right = temp;
+        invertTreeRecursion(node.left);
+        invertTreeRecursion(node.right);
+    }
+
+    void invertTreeStack(AVL root) {
+        if (root == null) {
+            return;
+        }
+        Stack<AVL> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            AVL node = stack.pop();
+            AVL left = node.left;
+            node.left = node.right;
+            node.right = left;
+            if (node.left != null) {
+                stack.push(node.left);
+            }
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+        }
+    }
+
+    void invertTreeQueue(AVL root) {
+        if (root == null) {
+            return;
+        }
+        Queue<AVL> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            AVL node = queue.poll();
+            AVL left = node.left;
+            node.left = node.right;
+            node.right = left;
+            if (node.left != null) {
+                queue.offer(node.left);
+            }
+            if (node.right != null) {
+                queue.offer(node.right);
+            }
+        }
+    }
+
     AVL create(int[] data) {
         AVL node = null;
         for (int i = 0; i < data.length; i++) {
@@ -249,9 +301,10 @@ public class AVL {
 
 
     public static void main(String[] args) {
-        int data[] = {10, 20, 30, 40, 50, 60, 70};
+        /*int data[] = {10, 20, 30, 40, 50, 60, 70};
         AVL node = new AVL().create(data);
         new AVL().delete(node, 40);
-        new AVL().layerOrder(node);
+        new AVL().invertTreeRecursion(node);
+        new AVL().layerOrder(node);*/
     }
 }
