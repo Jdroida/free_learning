@@ -244,11 +244,28 @@ public class AVL {
         return node;
     }
 
+    /**
+     * 计算免息期数在预期收益下的折扣率。如预期收益年化10%，12期免息，计算折扣率
+     *
+     * @param originIncomeRate 预期年化收益
+     * @param count            免息期数
+     * @return 折扣率
+     */
+    private float discount(float originIncomeRate, int count) {
+        float monthIncomeRate = originIncomeRate / 12f;
+        float expectIncome = 0f;
+        int originPrice = 1000;
+        for (int i = 0; i < count; i++) {
+            expectIncome += (originPrice - i * originPrice / count) * monthIncomeRate;
+        }
+        return expectIncome / originPrice;
+    }
 
     public static void main(String[] args) {
         int data[] = {10, 20, 30, 40, 50, 60, 70};
         AVL node = new AVL().create(data);
         new AVL().delete(node, 40);
         new AVL().layerOrder(node);
+        System.out.println(new AVL().discount(0.1f, 24));
     }
 }
