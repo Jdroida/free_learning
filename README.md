@@ -16,5 +16,5 @@
 [cpp排序算法辅助工具类](algorithm/SortTestHelper.h)<br>
 [cpp二叉搜索树](algorithm/TreeAlgorithm.cpp)<br>
 [cpp二叉平衡树](algorithm/AVLTree.cpp)<br>
-[Java二叉平衡树](src/AVL.java)<br>
+[Java二叉树算法](src/AVL.java)<br>
 [经典算法笔记](经典算法笔记.md)
