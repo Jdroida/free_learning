@@ -1,8 +1,7 @@
 # free_learning
 
 阿松的笔记本，开始支棱起来了<br>
-[Android基础复习](Android基础知识.md)<br>
-[Java基础知识](Java基础知识.md)<br>
+[Android复习](Android面试笔记.md)<br>
 [操作系统](操作系统.md)<br>
 [简单测试mac性能（娱乐）](cLearning/cal.sh)<br>
 [计算机组成原理](计算机组成原理.md)<br>
