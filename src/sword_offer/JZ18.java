@@ -13,4 +13,19 @@ public class JZ18 {
         Mirror(root.left);
         Mirror(root.right);
     }
+
+    //删除链表的节点
+    public ListNode deleteNode(ListNode head, int val) {
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode node = dummy;
+        while (node.next != null) {
+            if (node.next.val == val) {
+                node.next = node.next.next;
+                break;
+            }
+            node = node.next;
+        }
+        return dummy.next;
+    }
 }
