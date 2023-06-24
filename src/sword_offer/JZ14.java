@@ -19,5 +19,6 @@ public class JZ14 {
         if (k > list.size())
             return null;
         return list.get(k - 1);
+        //或者可以快慢指针，快指针fast先走k步，慢指针slow再和快指针fast一起走，但fast==null时，slow就是所求的值
     }
 }

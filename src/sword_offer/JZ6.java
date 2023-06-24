@@ -1,5 +1,7 @@
 package sword_offer;
 
+import java.util.Stack;
+
 public class JZ6 {
     /**
      * 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。
@@ -37,6 +39,26 @@ public class JZ6 {
         }
         return array[mid];
     }
+
+    //剑指 Offer 06. 从尾到头打印链表
+    //输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。
+
+    public int[] reversePrint(ListNode head) {
+        Stack<Integer> stack = new Stack<>();
+        ListNode iteration = head;
+        int elementCount = 0;
+        while (iteration != null) {
+            stack.push(iteration.val);
+            iteration = iteration.next;
+            elementCount++;
+        }
+        int[] res = new int[elementCount];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = stack.pop();
+        }
+        return res;
+    }
+
 
     public static void main(String[] args) {
         int a[] = {4, 5, 6, 1, 2, 3};
