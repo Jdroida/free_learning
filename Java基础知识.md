@@ -8,6 +8,24 @@
 
 hashcode表示指纹信息，hash里面有内存地址
 
+###### 按行读取文件
+
+```
+private static void readFile1(File fin) throws IOException {
+    FileInputStream fis = new FileInputStream(fin);
+ 
+    //Construct BufferedReader from InputStreamReader
+    BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+ 
+    String line = null;
+    while ((line = br.readLine()) != null) {
+        System.out.println(line);
+    }
+ 
+    br.close();
+}
+```
+
 ###### get与post的区别
 
 本质上没区别，都是tcp链接。给GET加上request body，给POST带上url参数，技术上是完全行的通的。只是HTTP的规定和浏览器/服务器的限制， 导致他们在应用过程中体现出一些不同。 restful
