@@ -10,6 +10,7 @@
 [计算机组成原理](basic_notes/计算机组成原理.md)<br>
 [计算机网络](basic_notes/计算机网络.md)<br>
 [使用wsl2编译aosp步骤](android_notes/使用wsl2编译aosp步骤.md)<br>
+[高斯模糊效果的实现原理](basic_notes/高斯模糊效果的实现原理.md)<br>]
 
 ### 数据结构
 [稠密图与稀疏图](algorithm/Graph.cpp)<br>
