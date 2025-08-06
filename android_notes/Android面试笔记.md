@@ -1,5 +1,24 @@
 ##### Android八股
 
+##### 常见的锁有哪些？lock和sync的区别是什么
+sync关键字，读写锁，可重入锁，信号量；lock灵活性更高，需要手动控制锁的释放；
+
+##### 关于surface view与texture view
+surface view处理高帧率的人物场景，texture view处理裁剪旋转小窗这些场景
+
+##### AIDL如何实现接口安全
+1. 信息内容加密
+2. 校验包名和签名
+3. 使用signature级别的自定义权限
+
+##### AIDL如何实现双向通信
+通过“接口回调”实现，客户端定义的回调接口，服务端使用
+
+##### Webview打开网页慢如何优化
+1. 预加载优化
+2. 合理配置 WebSettings（包括缓存策略）
+3. 注入JavaScript代码，延迟加载非关键资源
+
 ###### socket和aidl在应用间交换消息时的区别
 
 操作不一样，socket需要建立连接关闭连接这些操作，aidl不需要；能传输的数据不一样，按理说socket啥都能传，aidl能传的数据类型是固定的， 具体看文档；aidl有Linux的进程ID概念更加安全
