@@ -11,7 +11,7 @@
 [计算机网络](basic_notes/计算机网络.md)<br>
 [使用wsl2编译aosp步骤](android_notes/使用wsl2编译aosp步骤.md)<br>
 [高斯模糊效果的实现原理](basic_notes/introduce_to_gaussian_blur.md)<br>
-[如何结合recycler view实现滑动侧边栏功能](android_notes/侧滑删除.md)<br>)
+[如何结合recycler view实现滑动侧边栏功能](android_notes/侧滑删除.md)<br>
 
 ### 数据结构
 [稠密图与稀疏图](algorithm/Graph.cpp)<br>
