@@ -29,6 +29,8 @@ chmod +x repo
 export REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/git/git-repo'
 #建立仓库 这里我选了Android13
 ./repo init -u https://mirrors.tuna.tsinghua.edu.cn/git/AOSP/platform/manifest -b android-13.0.0_r1	
+#另外也可以选Android10r41
+./repo init -u https://mirrors.tuna.tsinghua.edu.cn/git/AOSP/platform/manifest -b android-10.0.0_r41	
 #同步代码
 ./repo sync
 ```
@@ -38,7 +40,7 @@ export REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/git/git-repo'
 ```
 # 配置aosp脚本环境
 source build/envsetup.sh
-# 选择镜像（这里我试过65和67，不同的镜像可能会遇到不同的问题）
+# 选择镜像（这里我试过65和67，不同的镜像可能会遇到不同的问题）（如果是Android10的话可以选26，这个我试过）
 lunch 
 # 开始编译
 m
@@ -47,6 +49,12 @@ sudo apt install git-core gnupg flex bison build-essential zip curl zlib1g-dev l
 # 缺少so库的情况 比如libncurses5，注意i386可能找不到，但这个经我测试也是非必须的
 sudo add-apt-repository universe
 sudo apt-get install libncurses5 libncurses5:i386
+# 如果是Android10的话还需要python2
+sudo apt install python2
+# 并且aosp里有python脚本需要用到python命令，这里搞个符号链接
+sudo ln -sfn /usr/bin/python2 /usr/bin/python
 # 启动模拟器
 emulator
+# 在wsl下会因为缺少kvm加速报错
+# emulator -no-accel
 ```
