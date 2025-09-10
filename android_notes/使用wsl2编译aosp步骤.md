@@ -58,3 +58,28 @@ emulator
 # 在wsl下会因为缺少kvm加速报错
 # emulator -no-accel
 ```
+
+5. 删除launcher search搜索框
+```
+# 打开aosp中这个文件：packages/apps/Launcher3/src/com/android/launcher3/Workspace.java  删除这些代码
+CellLayout.LayoutParams lp = new CellLayout.LayoutParams(0, 0, firstPage.getCountX(), 1);
+        lp.canReorder = false;
+        if (!firstPage.addViewToCellLayout(qsb, 0, R.id.search_container_workspace, lp, true)) {
+            Log.e(TAG, "Failed to add to item at (0, 0) to CellLayout");
+        }
+# 打开aosp中这个文件：packages/apps/Launcher3/res/layout/search_container_workspace.xml  删除这些代码
+<fragment
+        android:name="com.android.launcher3.qsb.QsbContainerView$QsbFragment"
+        android:layout_width="match_parent"
+        android:tag="qsb_view"
+        android:layout_height="match_parent"/>
+# 现在重新运行 m -j16或者m，然后运行emulator，现在搜索栏就已经被删掉了
+```
+6. 使用AIDEGEN
+```
+# 使用AIDEGEN调用Android Studio打开Settings模块
+aidegen Settings -i s -p /snap/android-studio/current/bin/studio.sh
+# 参考：将Android Studio添加进环境变量
+export PATH=$PATH:/snap/android-studio/current/bin
+# 最后设置下SDK和JDK就可以了
+```
