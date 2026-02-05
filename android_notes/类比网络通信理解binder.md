@@ -291,7 +291,7 @@ bindService(intent, new ServiceConnection() {
 | UI 卡顿 | Binder 调用默认同步，阻塞主线程 | 异步调用或移到子线程 |
 
 ---
-
+既然binder有性能优势,那为什么AMS和zygote的通信不使用binder而是socket? 请移步:[Zygote与AMS通信机制详解](Zygote与AMS通信机制详解.md)
 ## 九、总结
 
 | 组件 | 类比 | 一句话总结 |
