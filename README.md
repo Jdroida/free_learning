@@ -13,6 +13,8 @@
 [高斯模糊效果的实现原理](basic_notes/introduce_to_gaussian_blur.md)<br>
 [如何结合recycler view实现滑动侧边栏功能](android_notes/侧滑删除.md)<br>
 [类比网络通信理解binder](android_notes/类比网络通信理解binder.md)<br>
+[关于锁的常见问题](android_notes/关于Android中的锁.md)<br>
+[关于协程的常见问题](android_notes/关于协程的常见问题.md)<br)
 
 ### 数据结构
 [稠密图与稀疏图](algorithm/Graph.cpp)<br>
